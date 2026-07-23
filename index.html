@@ -525,34 +525,12 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>Tonalidade / Tom</label>
-                    <input type="text" id="inTom" value="T-42" oninput="updateTag()">
-                </div>
-                <div class="form-group">
-                    <label>Calibre / Bitola</label>
-                    <input type="text" id="inCalibre" value="C-03" oninput="updateTag()">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
                     <label>Qtd. Caixas</label>
                     <input type="number" id="inCaixas" value="32" oninput="updateTag()">
                 </div>
                 <div class="form-group">
                     <label>Metragem (m²)</label>
                     <input type="text" id="inM2" value="167,68" oninput="updateTag()">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Peso Total (kg)</label>
-                    <input type="text" id="inPeso" value="1.420" oninput="updateTag()">
-                </div>
-                <div class="form-group">
-                    <label>Data Fabricação</label>
-                    <input type="date" id="inData" value="2026-07-23" oninput="updateTag()">
                 </div>
             </div>
 
@@ -601,35 +579,27 @@
                     <!-- Tabela Principal em Grid -->
                     <table class="grid-table">
                         <tr>
-                            <td colspan="2" class="field-box highlight" style="width: 40%;">
+                            <td colspan="4" class="field-box highlight" style="width: 100%;">
                                 <div class="field-label">Marca / Linha</div>
                                 <div class="field-value large" id="outMarcaText">CERÂMICA CERAMIX</div>
-                            </td>
-                            <td colspan="2" class="field-box highlight" style="width: 60%;">
-                                <div class="field-label">Descrição do Produto</div>
-                                <div class="field-value large" id="outProduto">PORCELANATO ESMALTADO POLIDO</div>
                             </td>
                         </tr>
 
                         <tr>
-                            <!-- Referência ajustada (15% de largura) -->
                             <td class="field-box accent-box" style="width: 15%;">
                                 <div class="field-label">Codigo</div>
                                 <div class="field-value huge accent" id="outRef">84021</div>
                             </td>
-                            <!-- Formato (20% de largura) -->
                             <td class="field-box" style="width: 20%;">
                                 <div class="field-label">Formato</div>
                                 <div class="field-value large"><span id="outFormato">84 x 84</span> <span class="field-unit">cm</span></div>
                             </td>
-                            <!-- Classificação ajustada (22% de largura) -->
                             <td class="field-box highlight" style="width: 22%;">
                                 <div class="field-label">Classificação</div>
                                 <div style="margin-top: 3px;">
                                     <span class="class-badge" id="outClass">TIPO A</span>
                                 </div>
                             </td>
-                            <!-- Lote expandido (43% de largura) -->
                             <td class="field-box accent-box" style="width: 43%;">
                                 <div class="field-label">Lote</div>
                                 <div class="field-value huge accent" id="outLote">LT: 3256-26</div>
@@ -637,33 +607,20 @@
                         </tr>
 
                         <tr>
-                            <td class="field-box" style="width: 20%;">
-                                <div class="field-label">Tonalidade / Tom</div>
-                                <div class="field-value huge" id="outTom">T-42</div>
-                            </td>
-                            <td class="field-box" style="width: 20%;">
-                                <div class="field-label">Calibre / Bitola</div>
-                                <div class="field-value huge" id="outCalibre">C-03</div>
-                            </td>
-                            <td class="field-box" style="width: 25%;">
-                                <div class="field-label">Qtd. Caixas</div>
-                                <div class="field-value huge"><span id="outCaixas">32</span> <span class="field-unit">cx</span></div>
-                            </td>
-                            <!-- Metragem Total expandida (35% de largura) -->
-                            <td class="field-box highlight" style="width: 35%;">
-                                <div class="field-label">Metragem Total</div>
-                                <div class="field-value huge" style="white-space: nowrap;"><span id="outM2">167,68</span> <span class="field-unit" style="font-size: 14pt; font-weight: bold;">m²</span></div>
+                            <td colspan="4" class="field-box highlight" style="width: 100%; text-align: center; padding: 20px 10px;">
+                                <div class="field-label">Descrição do Produto</div>
+                                <div class="field-value" id="outProduto" style="font-size: 38pt; font-weight: 900; line-height: 1.1; color: #0f172a;">PORCELANATO ESMALTADO POLIDO</div>
                             </td>
                         </tr>
 
                         <tr>
                             <td class="field-box" style="width: 25%;">
-                                <div class="field-label">Peso Bruto Total</div>
-                                <div class="field-value large"><span id="outPeso">1.420</span> <span class="field-unit">kg</span></div>
+                                <div class="field-label">Qtd. Caixas</div>
+                                <div class="field-value huge"><span id="outCaixas">32</span> <span class="field-unit">cx</span></div>
                             </td>
-                            <td class="field-box" style="width: 25%;">
-                                <div class="field-label">Data Fabricação</div>
-                                <div class="field-value large" id="outData">23/07/2026</div>
+                            <td class="field-box highlight" style="width: 25%;">
+                                <div class="field-label">Metragem Total</div>
+                                <div class="field-value huge" style="white-space: nowrap;"><span id="outM2">167,68</span> <span class="field-unit" style="font-size: 14pt; font-weight: bold;">m²</span></div>
                             </td>
                             <td class="field-box" style="width: 25%;">
                                 <div class="field-label">Turno / Operador</div>
@@ -731,15 +688,6 @@
     </div>
 
     <script>
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            const parts = dateString.split('-');
-            if (parts.length === 3) {
-                return `${parts[2]}/${parts[1]}/${parts[0]}`;
-            }
-            return dateString;
-        }
-
         function updateTag() {
             const marca = document.getElementById('inMarca').value || '-';
             const produto = document.getElementById('inProduto').value || '-';
@@ -747,12 +695,8 @@
             const formato = document.getElementById('inFormato').value || '-';
             const classificacao = document.getElementById('inClass').value || '-';
             const lote = document.getElementById('inLote').value || '-';
-            const tom = document.getElementById('inTom').value || '-';
-            const calibre = document.getElementById('inCalibre').value || '-';
             const caixas = document.getElementById('inCaixas').value || '0';
             const m2 = document.getElementById('inM2').value || '0';
-            const peso = document.getElementById('inPeso').value || '0';
-            const dataVal = document.getElementById('inData').value;
             const operador = document.getElementById('inOperador').value || '-';
             const pallet = document.getElementById('inPallet').value || '-';
 
@@ -763,41 +707,32 @@
             document.getElementById('outFormato').innerText = formato;
             document.getElementById('outClass').innerText = classificacao.toUpperCase();
             document.getElementById('outLote').innerText = lote.toUpperCase();
-            document.getElementById('outTom').innerText = tom.toUpperCase();
-            document.getElementById('outCalibre').innerText = calibre.toUpperCase();
             document.getElementById('outCaixas').innerText = caixas;
             document.getElementById('outM2').innerText = m2;
-            document.getElementById('outPeso').innerText = peso;
-            document.getElementById('outData').innerText = formatDate(dataVal) || '-';
             document.getElementById('outOperador').innerText = operador.toUpperCase();
             document.getElementById('outPallet').innerText = pallet.toUpperCase();
         }
 
         function clearFields() {
-            // Seleciona todos os inputs dentro do painel de formulário
             const inputs = document.querySelectorAll('.form-card input');
             inputs.forEach(input => {
                 input.value = '';
             });
-            // Atualiza a etiqueta com os campos vazios
             updateTag();
         }
 
         function changeColor(color, btn) {
-            // Altera a cor de fundo do cabeçalho
             document.getElementById('headerBg').style.backgroundColor = color;
-            // Altera a borda principal da etiqueta para combinar
             document.getElementById('palletBorder').style.borderColor = color;
             
-            // Remove a classe 'active' de todos os botões de cor
             const btns = document.querySelectorAll('.color-btn');
             btns.forEach(b => b.classList.remove('active'));
-            // Adiciona a classe 'active' ao botão clicado
             btn.classList.add('active');
         }
 
-        // Inicializar pré-visualização
         updateTag();
     </script>
 </body>
 </html>
+etiqueta_atualizada.html
+Exibindo etiqueta_atualizada.html.
