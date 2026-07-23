@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Etiquetas de Pallet de Pisos</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --primary-hover: #0f172a;
+            --accent: #d97706;
+            --bg-body: #f1f5f9;
+            --card-bg: #ffffff;
+            --border-color: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-body);
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 20px;
+        }
+
+        /* Form Panel */
+        .form-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            height: fit-content;
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.25rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: space-between;
+        }
+
+        /* Color Picker Buttons */
+        .color-picker {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .color-btn {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            padding: 0;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .color-btn.active {
+            border-color: #0f172a;
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #0f172a;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #1e293b;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+        }
+
+        /* Buttons Grid */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-print, .btn-clear {
+            width: 100%;
+            padding: 12px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print {
+            background-color: var(--primary);
+        }
+
+        .btn-print:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-clear {
+            background-color: #ef4444;
+        }
+
+        .btn-clear:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-print:active, .btn-clear:active {
+            transform: scale(0.99);
+        }
+
+        /* Preview Panel */
+        .preview-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .preview-header h3 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .preview-badge {
+            background-color: #e2e8f0;
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Tag Template Styling */
+        .tag-wrapper {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pallet-tag {
+            border: 3px solid #1e293b;
+            border-radius: 8px;
+            padding: 16px;
+            background: #ffffff;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .header-bg {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .brand-title-preview {
+            font-size: 22pt;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #f8fafc;
+        }
+
+        .brand-sub {
+            font-size: 8.5pt;
+            color: #cbd5e1;
+            margin-top: 2px;
+        }
+
+        .doc-title-preview {
+            text-align: right;
+            font-size: 13pt;
+            font-weight: bold;
+            color: #f59e0b;
+            text-transform: uppercase;
+        }
+
+        .doc-sub {
+            text-align: right;
+            font-size: 8pt;
+            color: #e2e8f0;
+        }
+
+        .grid-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 6px;
+            margin-bottom: 10px;
+        }
+
+        .field-box {
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 6px 10px;
+            background-color: #f8fafc;
+            vertical-align: top;
+        }
+
+        .field-box.highlight {
+            border-color: #1e293b;
+            background-color: #f1f5f9;
+        }
+
+        .field-box.accent-box {
+            border-color: #d97706;
+            background-color: #fffbeb;
+        }
+
+        .field-label {
+            font-size: 7.5pt;
+            font-weight: bold;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .field-value {
+            font-size: 16pt;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.1;
+            word-break: break-word;
+        }
+
+        .field-value.large {
+            font-size: 18pt;
+        }
+
+        .field-value.huge {
+            font-size: 24pt;
+            color: #1e293b;
+        }
+
+        .field-value.accent {
+            color: #b45309;
+        }
+
+        .field-unit {
+            font-size: 9pt;
+            font-weight: normal;
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        .class-badge {
+            display: inline-block;
+            background-color: #166534;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 15pt;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+        }
+
+        .qrcode-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px dashed #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: #ffffff;
+        }
+
+        .qrcode-img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .qrcode-info {
+            font-size: 8pt;
+            color: #334155;
+        }
+
+        .qrcode-title {
+            font-weight: bold;
+            font-size: 8.5pt;
+            color: #0f172a;
+        }
+
+        .qrcode-url {
+            font-family: monospace;
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .symbol-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 2px solid #475569;
+            border-radius: 6px;
+            margin: 0 2px;
+            text-align: center;
+            vertical-align: middle;
+            background-color: #ffffff;
+        }
+
+        .symbol-icon-text {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #334155;
+            line-height: 1;
+        }
+
+        .symbol-stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 0.95;
+        }
+
+        .symbol-max {
+            font-size: 7.5pt;
+            font-weight: 900;
+            color: #334155;
+            letter-spacing: 0.5px;
+        }
+
+        .symbol-num {
+            font-size: 13pt;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        .symbol-wrapper {
+            display: inline-block;
+            text-align: center;
+            margin-left: 4px;
+        }
+
+        .symbol-label {
+            font-size: 6pt;
+            color: #64748b;
+            margin-top: 3px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .instructions-box {
+            border-top: 2px solid #e2e8f0;
+            padding-top: 6px;
+            margin-top: 10px;
+            font-size: 7.5pt;
+            color: #64748b;
+        }
+
+        .rights-footer {
+            margin-top: 6px;
+            font-size: 7pt;
+            color: #475569;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* Impressão A4 Landscape */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                display: block;
+                max-width: none;
+            }
+
+            .form-card, .preview-header {
+                display: none !important;
+            }
+
+            .preview-card {
+                padding: 0;
+                box-shadow: none;
+                background: transparent;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 8mm;
+            }
+
+            .tag-wrapper {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .pallet-tag {
+                border-width: 3px;
+                height: 185mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- PAINEL DE FORMULÁRIO -->
+        <div class="form-card">
+            <h2>
+                <span>🏷️ Dados da Etiqueta</span>
+                <div class="color-picker" title="Cor do Cabeçalho">
+                    <button type="button" class="color-btn active" style="background-color: #1e293b;" onclick="changeColor('#1e293b', this)"></button>
+                    <button type="button" class="color-btn" style="background-color: #808080;" onclick="changeColor('#808080', this)"></button>
+                    <button type="button" class="color-btn" style="background-color: #D1631D;" onclick="changeColor('#D1631D', this)"></button>
+                </div>
+            </h2>
+            
+            <div class="form-group">
+                <label>Marca / Fabricante</label>
+                <input type="text" id="inMarca" value="CERÂMICA CERAMIX" oninput="updateTag()">
+            </div>
+
+            <div class="form-group">
+                <label>Descrição do Produto</label>
+                <input type="text" id="inProduto" value="PORCELANATO ESMALTADO POLIDO" oninput="updateTag()">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Ref. (5 Dig.)</label>
+                    <input type="text" id="inRef" value="84021" oninput="updateTag()">
+                </div>
+                <div class="form-group">
+                    <label>Formato (cm)</label>
+                    <input type="text" id="inFormato" value="84 x 84" oninput="updateTag()">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Classificação</label>
+                    <input type="text" id="inClass" value="TIPO A" oninput="updateTag()">
+                </div>
+                <div class="form-group">
+                    <label>Lote</label>
+                    <input type="text" id="inLote" value="LT: 3256-26" oninput="updateTag()">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Tonalidade / Tom</label>
+                    <input type="text" id="inTom" value="T-42" oninput="updateTag()">
+                </div>
+                <div class="form-group">
+                    <label>Calibre / Bitola</label>
+                    <input type="text" id="inCalibre" value="C-03" oninput="updateTag()">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Qtd. Caixas</label>
+                    <input type="number" id="inCaixas" value="32" oninput="updateTag()">
+                </div>
+                <div class="form-group">
+                    <label>Metragem (m²)</label>
+                    <input type="text" id="inM2" value="167,68" oninput="updateTag()">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Peso Total (kg)</label>
+                    <input type="text" id="inPeso" value="1.420" oninput="updateTag()">
+                </div>
+                <div class="form-group">
+                    <label>Data Fabricação</label>
+                    <input type="date" id="inData" value="2026-07-23" oninput="updateTag()">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Turno / Operador</label>
+                    <input type="text" id="inOperador" value="T2 / OP-104" oninput="updateTag()">
+                </div>
+                <div class="form-group">
+                    <label>Nº do Pallet</label>
+                    <input type="text" id="inPallet" value="PLT-00482" oninput="updateTag()">
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-clear" onclick="clearFields()">
+                    🧹 Limpar Campos
+                </button>
+                <button class="btn-print" onclick="window.print()">
+                    🖨️ Imprimir Placa
+                </button>
+            </div>
+        </div>
+
+        <!-- PAINEL DE PRÉ-VISUALIZAÇÃO -->
+        <div class="preview-card">
+            <div class="preview-header">
+                <h3>Pré-visualização da Placa</h3>
+                <span class="preview-badge">A4 Paisagem</span>
+            </div>
+
+            <div class="tag-wrapper">
+                <div class="pallet-tag" id="palletBorder">
+                    <!-- Cabeçalho -->
+                    <div class="header-bg" id="headerBg">
+                        <div>
+                            <div class="brand-title-preview" id="outMarca">CERÂMICA CERAMIX</div>
+                            <div class="brand-sub">PISOS E REVESTIMENTOS CERÂMICOS DE ALTA QUALIDADE</div>
+                        </div>
+                        <div>
+                            <div class="doc-title-preview">Identificação de Pallet</div>
+                            <div class="doc-sub">ETIQUETA LOGÍSTICA DE ARMAZENAMENTO</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabela Principal em Grid -->
+                    <table class="grid-table">
+                        <tr>
+                            <td colspan="2" class="field-box highlight" style="width: 40%;">
+                                <div class="field-label">Marca / Linha</div>
+                                <div class="field-value large" id="outMarcaText">CERÂMICA CERAMIX</div>
+                            </td>
+                            <td colspan="2" class="field-box highlight" style="width: 60%;">
+                                <div class="field-label">Descrição do Produto</div>
+                                <div class="field-value large" id="outProduto">PORCELANATO ESMALTADO POLIDO</div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <!-- Referência ajustada (15% de largura) -->
+                            <td class="field-box accent-box" style="width: 15%;">
+                                <div class="field-label">Codigo</div>
+                                <div class="field-value huge accent" id="outRef">84021</div>
+                            </td>
+                            <!-- Formato (20% de largura) -->
+                            <td class="field-box" style="width: 20%;">
+                                <div class="field-label">Formato</div>
+                                <div class="field-value large"><span id="outFormato">84 x 84</span> <span class="field-unit">cm</span></div>
+                            </td>
+                            <!-- Classificação ajustada (22% de largura) -->
+                            <td class="field-box highlight" style="width: 22%;">
+                                <div class="field-label">Classificação</div>
+                                <div style="margin-top: 3px;">
+                                    <span class="class-badge" id="outClass">TIPO A</span>
+                                </div>
+                            </td>
+                            <!-- Lote expandido (43% de largura) -->
+                            <td class="field-box accent-box" style="width: 43%;">
+                                <div class="field-label">Lote</div>
+                                <div class="field-value huge accent" id="outLote">LT: 3256-26</div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="field-box" style="width: 20%;">
+                                <div class="field-label">Tonalidade / Tom</div>
+                                <div class="field-value huge" id="outTom">T-42</div>
+                            </td>
+                            <td class="field-box" style="width: 20%;">
+                                <div class="field-label">Calibre / Bitola</div>
+                                <div class="field-value huge" id="outCalibre">C-03</div>
+                            </td>
+                            <td class="field-box" style="width: 25%;">
+                                <div class="field-label">Qtd. Caixas</div>
+                                <div class="field-value huge"><span id="outCaixas">32</span> <span class="field-unit">cx</span></div>
+                            </td>
+                            <!-- Metragem Total expandida (35% de largura) -->
+                            <td class="field-box highlight" style="width: 35%;">
+                                <div class="field-label">Metragem Total</div>
+                                <div class="field-value huge" style="white-space: nowrap;"><span id="outM2">167,68</span> <span class="field-unit" style="font-size: 14pt; font-weight: bold;">m²</span></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="field-box" style="width: 25%;">
+                                <div class="field-label">Peso Bruto Total</div>
+                                <div class="field-value large"><span id="outPeso">1.420</span> <span class="field-unit">kg</span></div>
+                            </td>
+                            <td class="field-box" style="width: 25%;">
+                                <div class="field-label">Data Fabricação</div>
+                                <div class="field-value large" id="outData">23/07/2026</div>
+                            </td>
+                            <td class="field-box" style="width: 25%;">
+                                <div class="field-label">Turno / Operador</div>
+                                <div class="field-value large" id="outOperador">T2 / OP-104</div>
+                            </td>
+                            <td class="field-box" style="width: 25%;">
+                                <div class="field-label">Nº do Pallet</div>
+                                <div class="field-value large" id="outPallet">PLT-00482</div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Rodapé com QR Code e Ícones -->
+                    <table class="footer-table">
+                        <tr>
+                            <td style="width: 55%;">
+                                <div class="qrcode-container">
+                                    <img class="qrcode-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/gbmnagpng" alt="QR Code GitHub">
+                                    <div class="qrcode-info">
+                                        <div class="qrcode-title">Acesse o Repositório do Projeto:</div>
+                                        <div class="qrcode-url">github.com/gbmnagpng</div>
+                                        <div style="color: #64748b; font-size: 7.5pt; margin-top: 2px;">Digitalize o QR Code para ver o perfil e código-fonte</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 45%; text-align: right;">
+                                <div class="symbol-wrapper">
+                                    <div class="symbol-box"><span class="symbol-icon-text">☂</span></div>
+                                    <div class="symbol-label">Proteger Chuva</div>
+                                </div>
+                                <div class="symbol-wrapper">
+                                    <div class="symbol-box"><span class="symbol-icon-text">🍷</span></div>
+                                    <div class="symbol-label">Frágil</div>
+                                </div>
+                                <div class="symbol-wrapper">
+                                    <div class="symbol-box"><span class="symbol-icon-text">⬆⬆</span></div>
+                                    <div class="symbol-label">Para Cima</div>
+                                </div>
+                                <!-- MAX Alinhado -->
+                                <div class="symbol-wrapper">
+                                    <div class="symbol-box">
+                                        <div class="symbol-stacked">
+                                            <span class="symbol-max">MAX</span>
+                                            <span class="symbol-num">3</span>
+                                        </div>
+                                    </div>
+                                    <div class="symbol-label">Empilhamento</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="instructions-box">
+                        <strong>ATENÇÃO:</strong> Verifique se todas as caixas do mesmo lote possuem a mesma TONALIDADE e CALIBRE antes do assentamento. Não misture lotes diferentes no mesmo ambiente.
+                    </div>
+
+                    <!-- Direitos Reservados e GitHub -->
+                    <div class="rights-footer">
+                        <span>Todos os direitos reservados — Gabriel Menezes Aragão</span>
+                        <span>GitHub: github.com/gbmnagpng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            return dateString;
+        }
+
+        function updateTag() {
+            const marca = document.getElementById('inMarca').value || '-';
+            const produto = document.getElementById('inProduto').value || '-';
+            const ref = document.getElementById('inRef').value || '-';
+            const formato = document.getElementById('inFormato').value || '-';
+            const classificacao = document.getElementById('inClass').value || '-';
+            const lote = document.getElementById('inLote').value || '-';
+            const tom = document.getElementById('inTom').value || '-';
+            const calibre = document.getElementById('inCalibre').value || '-';
+            const caixas = document.getElementById('inCaixas').value || '0';
+            const m2 = document.getElementById('inM2').value || '0';
+            const peso = document.getElementById('inPeso').value || '0';
+            const dataVal = document.getElementById('inData').value;
+            const operador = document.getElementById('inOperador').value || '-';
+            const pallet = document.getElementById('inPallet').value || '-';
+
+            document.getElementById('outMarca').innerText = marca.toUpperCase();
+            document.getElementById('outMarcaText').innerText = marca.toUpperCase();
+            document.getElementById('outProduto').innerText = produto.toUpperCase();
+            document.getElementById('outRef').innerText = ref.toUpperCase();
+            document.getElementById('outFormato').innerText = formato;
+            document.getElementById('outClass').innerText = classificacao.toUpperCase();
+            document.getElementById('outLote').innerText = lote.toUpperCase();
+            document.getElementById('outTom').innerText = tom.toUpperCase();
+            document.getElementById('outCalibre').innerText = calibre.toUpperCase();
+            document.getElementById('outCaixas').innerText = caixas;
+            document.getElementById('outM2').innerText = m2;
+            document.getElementById('outPeso').innerText = peso;
+            document.getElementById('outData').innerText = formatDate(dataVal) || '-';
+            document.getElementById('outOperador').innerText = operador.toUpperCase();
+            document.getElementById('outPallet').innerText = pallet.toUpperCase();
+        }
+
+        function clearFields() {
+            // Seleciona todos os inputs dentro do painel de formulário
+            const inputs = document.querySelectorAll('.form-card input');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            // Atualiza a etiqueta com os campos vazios
+            updateTag();
+        }
+
+        function changeColor(color, btn) {
+            // Altera a cor de fundo do cabeçalho
+            document.getElementById('headerBg').style.backgroundColor = color;
+            // Altera a borda principal da etiqueta para combinar
+            document.getElementById('palletBorder').style.borderColor = color;
+            
+            // Remove a classe 'active' de todos os botões de cor
+            const btns = document.querySelectorAll('.color-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            // Adiciona a classe 'active' ao botão clicado
+            btn.classList.add('active');
+        }
+
+        // Inicializar pré-visualização
+        updateTag();
+    </script>
+</body>
+</html>
