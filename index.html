@@ -255,6 +255,7 @@
             border-collapse: separate;
             border-spacing: 6px;
             margin-bottom: 10px;
+            table-layout: fixed;
         }
 
         .field-box {
@@ -440,6 +441,11 @@
 
         /* Impressão A4 Landscape */
         @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
             body {
                 background: white;
                 padding: 0;
@@ -503,7 +509,7 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>Ref. (5 Dig.)</label>
+                    <label>Referência</label>
                     <input type="text" id="inRef" value="84021" oninput="updateTag()">
                 </div>
                 <div class="form-group">
@@ -519,7 +525,7 @@
                 </div>
                 <div class="form-group">
                     <label>Lote</label>
-                    <input type="text" id="inLote" value="LT: 3256-26" oninput="updateTag()">
+                    <input type="text" id="inLote" value="LT:3256-26" oninput="updateTag()">
                 </div>
             </div>
 
@@ -594,13 +600,13 @@
                                 <div class="field-label">Formato</div>
                                 <div class="field-value large"><span id="outFormato">84 x 84</span> <span class="field-unit">cm</span></div>
                             </td>
-                            <td class="field-box highlight" style="width: 22%;">
+                            <td class="field-box highlight" style="width: 13%;">
                                 <div class="field-label">Classificação</div>
                                 <div style="margin-top: 3px;">
                                     <span class="class-badge" id="outClass">TIPO A</span>
                                 </div>
                             </td>
-                            <td class="field-box accent-box" style="width: 43%;">
+                            <td class="field-box accent-box" style="width: 52%;">
                                 <div class="field-label">Lote</div>
                                 <div class="field-value huge accent" id="outLote">LT: 3256-26</div>
                             </td>
@@ -614,7 +620,7 @@
                         </tr>
 
                         <tr>
-                            <td class="field-box" style="width: 25%;">
+                            <td class="field-box highlight" style="width: 25%;">
                                 <div class="field-label">Qtd. Caixas</div>
                                 <div class="field-value huge"><span id="outCaixas">32</span> <span class="field-unit">cx</span></div>
                             </td>
@@ -622,11 +628,11 @@
                                 <div class="field-label">Metragem Total</div>
                                 <div class="field-value huge" style="white-space: nowrap;"><span id="outM2">167,68</span> <span class="field-unit" style="font-size: 14pt; font-weight: bold;">m²</span></div>
                             </td>
-                            <td class="field-box" style="width: 25%;">
+                            <td class="field-box highlight" style="width: 25%;">
                                 <div class="field-label">Turno / Operador</div>
                                 <div class="field-value large" id="outOperador">T2 / OP-104</div>
                             </td>
-                            <td class="field-box" style="width: 25%;">
+                            <td class="field-box highlight" style="width: 25%;">
                                 <div class="field-label">Nº do Pallet</div>
                                 <div class="field-value large" id="outPallet">PLT-00482</div>
                             </td>
