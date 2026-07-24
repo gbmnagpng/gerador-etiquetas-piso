@@ -6,8 +6,8 @@
     <title>Gerador de Etiquetas de Pallet de Pisos</title>
     <style>
         :root {
-            --primary: #1e293b;
-            --primary-hover: #0f172a;
+            --primary: #88E788;
+            --primary-hover: #76d676;
             --accent: #d97706;
             --bg-body: #f1f5f9;
             --card-bg: #ffffff;
@@ -45,7 +45,7 @@
 
         .form-card h2 {
             margin-top: 0;
-            color: var(--primary);
+            color: #334155;
             font-size: 1.25rem;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
@@ -78,8 +78,8 @@
         }
 
         .color-btn.active {
-            border-color: #0f172a;
-            box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #0f172a;
+            border-color: #334155;
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #334155;
         }
 
         .form-group {
@@ -107,7 +107,7 @@
             border: 1px solid var(--border-color);
             border-radius: 6px;
             font-size: 0.95rem;
-            color: #1e293b;
+            color: #334155;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
@@ -128,7 +128,6 @@
         .btn-print, .btn-clear {
             width: 100%;
             padding: 12px;
-            color: white;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
@@ -143,6 +142,7 @@
 
         .btn-print {
             background-color: var(--primary);
+            color: #1e293b;
         }
 
         .btn-print:hover {
@@ -151,6 +151,7 @@
 
         .btn-clear {
             background-color: #ef4444;
+            color: white;
         }
 
         .btn-clear:hover {
@@ -181,7 +182,7 @@
 
         .preview-header h3 {
             margin: 0;
-            color: var(--primary);
+            color: #334155;
         }
 
         .preview-badge {
@@ -202,7 +203,7 @@
         }
 
         .pallet-tag {
-            border: 3px solid #1e293b;
+            border: 3px solid #88E788;
             border-radius: 8px;
             padding: 16px;
             background: #ffffff;
@@ -211,8 +212,8 @@
         }
 
         .header-bg {
-            background-color: #1e293b;
-            color: #ffffff;
+            background-color: #88E788;
+            color: #1e293b;
             padding: 12px 16px;
             border-radius: 4px;
             margin-bottom: 12px;
@@ -227,12 +228,12 @@
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: #f8fafc;
+            color: #0f172a;
         }
 
         .brand-sub {
             font-size: 8.5pt;
-            color: #cbd5e1;
+            color: #334155;
             margin-top: 2px;
         }
 
@@ -240,14 +241,14 @@
             text-align: right;
             font-size: 13pt;
             font-weight: bold;
-            color: #f59e0b;
+            color: #b45309;
             text-transform: uppercase;
         }
 
         .doc-sub {
             text-align: right;
             font-size: 8pt;
-            color: #e2e8f0;
+            color: #334155;
         }
 
         .grid-table {
@@ -259,16 +260,16 @@
         }
 
         .field-box {
-            border: 2px solid #cbd5e1;
+            border: 2px solid #88E788;
             border-radius: 6px;
             padding: 6px 10px;
-            background-color: #f8fafc;
+            background-color: #ffffff;
             vertical-align: top;
         }
 
         .field-box.highlight {
-            border-color: #1e293b;
-            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            background-color: #ffffff;
         }
 
         .field-box.accent-box {
@@ -288,7 +289,7 @@
         .field-value {
             font-size: 16pt;
             font-weight: 800;
-            color: #0f172a;
+            color: #1e293b;
             line-height: 1.1;
             word-break: break-word;
         }
@@ -353,7 +354,7 @@
         .qrcode-title {
             font-weight: bold;
             font-size: 8.5pt;
-            color: #0f172a;
+            color: #1e293b;
         }
 
         .qrcode-url {
@@ -402,7 +403,7 @@
         .symbol-num {
             font-size: 13pt;
             font-weight: 900;
-            color: #0f172a;
+            color: #1e293b;
         }
 
         .symbol-wrapper {
@@ -491,64 +492,58 @@
             <h2>
                 <span>🏷️ Dados da Etiqueta</span>
                 <div class="color-picker" title="Cor do Cabeçalho">
-                    <button type="button" class="color-btn active" style="background-color: #1e293b;" onclick="changeColor('#1e293b', this)"></button>
-                    <button type="button" class="color-btn" style="background-color: #808080;" onclick="changeColor('#808080', this)"></button>
+                    <button type="button" class="color-btn active" style="background-color: #88E788;" onclick="changeColor('#88E788', this)"></button>
+                    <button type="button" class="color-btn" style="background-color: #ffffff; border-color: #cbd5e1;" onclick="changeColor('#ffffff', this)"></button>
                     <button type="button" class="color-btn" style="background-color: #D1631D;" onclick="changeColor('#D1631D', this)"></button>
                 </div>
             </h2>
             
             <div class="form-group">
                 <label>Marca / Fabricante</label>
-                <input type="text" id="inMarca" value="CERÂMICA CERAMIX" oninput="updateTag()">
+                <input type="text" id="inMarca" placeholder="Ex: CERÂMICA CERAMIX" oninput="updateTag()">
             </div>
 
             <div class="form-group">
                 <label>Descrição do Produto</label>
-                <input type="text" id="inProduto" value="PORCELANATO ESMALTADO POLIDO" oninput="updateTag()">
+                <input type="text" id="inProduto" placeholder="Ex: PORCELANATO ESMALTADO POLIDO" oninput="updateTag()">
             </div>
 
             <div class="form-row">
-                <div class="form-group">
-                    <label>Referência</label>
-                    <input type="text" id="inRef" value="84021" oninput="updateTag()">
-                </div>
                 <div class="form-group">
                     <label>Formato (cm)</label>
-                    <input type="text" id="inFormato" value="84 x 84" oninput="updateTag()">
+                    <input type="text" id="inFormato" placeholder="Ex: 84 x 84" oninput="updateTag()">
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="form-group">
                     <label>Classificação</label>
-                    <input type="text" id="inClass" value="TIPO A" oninput="updateTag()">
+                    <input type="text" id="inClass" placeholder="Ex: TIPO A" oninput="updateTag()">
                 </div>
+            </div>
+
+            <div class="form-row">
                 <div class="form-group">
                     <label>Lote</label>
-                    <input type="text" id="inLote" value="LT:3256-26" oninput="updateTag()">
+                    <input type="text" id="inLote" placeholder="Ex: LT:3256-26" oninput="updateTag()">
                 </div>
-            </div>
-
-            <div class="form-row">
                 <div class="form-group">
                     <label>Qtd. Caixas</label>
-                    <input type="number" id="inCaixas" value="32" oninput="updateTag()">
-                </div>
-                <div class="form-group">
-                    <label>Metragem (m²)</label>
-                    <input type="text" id="inM2" value="167,68" oninput="updateTag()">
+                    <input type="number" id="inCaixas" placeholder="Ex: 32" oninput="updateTag()">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>Turno / Operador</label>
-                    <input type="text" id="inOperador" value="T2 / OP-104" oninput="updateTag()">
+                    <label>Metragem (m²)</label>
+                    <input type="text" id="inM2" placeholder="Ex: 167,68" oninput="updateTag()">
                 </div>
                 <div class="form-group">
                     <label>Nº do Pallet</label>
-                    <input type="text" id="inPallet" value="PLT-00482" oninput="updateTag()">
+                    <input type="text" id="inPallet" placeholder="Ex: PLT-00482" oninput="updateTag()">
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label>Turno / Operador</label>
+                <input type="text" id="inOperador" placeholder="Ex: T2 / OP-104" oninput="updateTag()">
             </div>
 
             <div class="action-buttons">
@@ -585,37 +580,33 @@
                     <!-- Tabela Principal em Grid -->
                     <table class="grid-table">
                         <tr>
-                            <td colspan="4" class="field-box highlight" style="width: 100%;">
+                            <td colspan="3" class="field-box highlight" style="width: 100%;">
                                 <div class="field-label">Marca / Linha</div>
                                 <div class="field-value large" id="outMarcaText">CERÂMICA CERAMIX</div>
                             </td>
                         </tr>
 
                         <tr>
-                            <td class="field-box accent-box" style="width: 15%;">
-                                <div class="field-label">Codigo</div>
-                                <div class="field-value huge accent" id="outRef">84021</div>
-                            </td>
-                            <td class="field-box" style="width: 20%;">
+                            <td class="field-box" style="width: 25%;">
                                 <div class="field-label">Formato</div>
                                 <div class="field-value large"><span id="outFormato">84 x 84</span> <span class="field-unit">cm</span></div>
                             </td>
-                            <td class="field-box highlight" style="width: 13%;">
+                            <td class="field-box highlight" style="width: 20%;">
                                 <div class="field-label">Classificação</div>
                                 <div style="margin-top: 3px;">
                                     <span class="class-badge" id="outClass">TIPO A</span>
                                 </div>
                             </td>
-                            <td class="field-box accent-box" style="width: 52%;">
+                            <td class="field-box accent-box" style="width: 55%;">
                                 <div class="field-label">Lote</div>
                                 <div class="field-value huge accent" id="outLote">LT: 3256-26</div>
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="4" class="field-box highlight" style="width: 100%; text-align: center; padding: 20px 10px;">
+                            <td colspan="3" class="field-box highlight" style="width: 100%; text-align: center; padding: 12px 10px;">
                                 <div class="field-label">Descrição do Produto</div>
-                                <div class="field-value" id="outProduto" style="font-size: 38pt; font-weight: 900; line-height: 1.1; color: #0f172a;">PORCELANATO ESMALTADO POLIDO</div>
+                                <div class="field-value" id="outProduto" style="font-size: 50pt; font-weight: 900; line-height: 1.05; color: #ED2100;">PORCELANATO ESMALTADO POLIDO</div>
                             </td>
                         </tr>
 
@@ -628,13 +619,17 @@
                                 <div class="field-label">Metragem Total</div>
                                 <div class="field-value huge" style="white-space: nowrap;"><span id="outM2">167,68</span> <span class="field-unit" style="font-size: 14pt; font-weight: bold;">m²</span></div>
                             </td>
-                            <td class="field-box highlight" style="width: 25%;">
-                                <div class="field-label">Turno / Operador</div>
-                                <div class="field-value large" id="outOperador">T2 / OP-104</div>
-                            </td>
-                            <td class="field-box highlight" style="width: 25%;">
-                                <div class="field-label">Nº do Pallet</div>
-                                <div class="field-value large" id="outPallet">PLT-00482</div>
+                            <td class="field-box highlight" style="width: 50%;">
+                                <div class="field-row" style="display: flex; gap: 20px;">
+                                    <div style="flex: 1;">
+                                        <div class="field-label">Turno / Operador</div>
+                                        <div class="field-value large" id="outOperador">T2 / OP-104</div>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div class="field-label">Nº do Pallet</div>
+                                        <div class="field-value large" id="outPallet">PLT-00482</div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -694,22 +689,33 @@
     </div>
 
     <script>
+        // Valores padrões caso o campo no formulário fique vazio
+        const DEFAULT_VALUES = {
+            marca: "CERÂMICA CERAMIX",
+            produto: "PORCELANATO ESMALTADO POLIDO",
+            formato: "84 x 84",
+            classificacao: "TIPO A",
+            lote: "LT:3256-26",
+            caixas: "32",
+            m2: "167,68",
+            operador: "T2 / OP-104",
+            pallet: "PLT-00482"
+        };
+
         function updateTag() {
-            const marca = document.getElementById('inMarca').value || '-';
-            const produto = document.getElementById('inProduto').value || '-';
-            const ref = document.getElementById('inRef').value || '-';
-            const formato = document.getElementById('inFormato').value || '-';
-            const classificacao = document.getElementById('inClass').value || '-';
-            const lote = document.getElementById('inLote').value || '-';
-            const caixas = document.getElementById('inCaixas').value || '0';
-            const m2 = document.getElementById('inM2').value || '0';
-            const operador = document.getElementById('inOperador').value || '-';
-            const pallet = document.getElementById('inPallet').value || '-';
+            const marca = document.getElementById('inMarca').value.trim() || DEFAULT_VALUES.marca;
+            const produto = document.getElementById('inProduto').value.trim() || DEFAULT_VALUES.produto;
+            const formato = document.getElementById('inFormato').value.trim() || DEFAULT_VALUES.formato;
+            const classificacao = document.getElementById('inClass').value.trim() || DEFAULT_VALUES.classificacao;
+            const lote = document.getElementById('inLote').value.trim() || DEFAULT_VALUES.lote;
+            const caixas = document.getElementById('inCaixas').value.trim() || DEFAULT_VALUES.caixas;
+            const m2 = document.getElementById('inM2').value.trim() || DEFAULT_VALUES.m2;
+            const operador = document.getElementById('inOperador').value.trim() || DEFAULT_VALUES.operador;
+            const pallet = document.getElementById('inPallet').value.trim() || DEFAULT_VALUES.pallet;
 
             document.getElementById('outMarca').innerText = marca.toUpperCase();
             document.getElementById('outMarcaText').innerText = marca.toUpperCase();
             document.getElementById('outProduto').innerText = produto.toUpperCase();
-            document.getElementById('outRef').innerText = ref.toUpperCase();
             document.getElementById('outFormato').innerText = formato;
             document.getElementById('outClass').innerText = classificacao.toUpperCase();
             document.getElementById('outLote').innerText = lote.toUpperCase();
